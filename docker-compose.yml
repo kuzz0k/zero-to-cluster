@@ -16,20 +16,30 @@ services:
       timeout: 5s
       retries: 5
 
-  backend:
+  migrate:
     build: ./backend
     env_file: .env
     depends_on:
       db:
         condition: service_healthy
+    command: alembic upgrade head
+    restart: "no"
+
+  backend:
+    build: ./backend
+    env_file: .env
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
     ports:
       - "8000:8000"
-    volumes:
-      - ./backend:/app
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:8000/api/v1}
     depends_on:
       - backend
     ports:
