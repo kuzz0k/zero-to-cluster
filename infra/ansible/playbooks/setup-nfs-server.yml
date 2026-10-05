@@ -1,0 +1,52 @@
+---
+- name: Configure NFS server
+  hosts: nfs
+  become: true
+  vars:
+    nfs_export_options: rw,sync,no_subtree_check,no_root_squash
+
+  tasks:
+    - name: Install NFS server package
+      ansible.builtin.apt:
+        name: nfs-kernel-server
+        state: present
+        update_cache: true
+
+    - name: Create NFS export directory
+      ansible.builtin.file:
+        path: "{{ nfs_export_path }}"
+        state: directory
+        owner: root
+        group: root
+        mode: "0777"
+
+    - name: Configure NFS export
+      ansible.builtin.lineinfile:
+        path: /etc/exports
+        regexp: "^{{ nfs_export_path | regex_escape }}\\s"
+        line: "{{ nfs_export_path }} {{ nfs_export_network }}({{ nfs_export_options }})"
+        create: true
+        mode: "0644"
+      notify: Reload NFS exports
+
+    - name: Ensure NFS server is enabled and running
+      ansible.builtin.service:
+        name: nfs-kernel-server
+        state: started
+        enabled: true
+
+  handlers:
+    - name: Reload NFS exports
+      ansible.builtin.command: exportfs -ra
+      changed_when: true
+
+- name: Install NFS client packages on Kubernetes nodes
+  hosts: control:workers
+  become: true
+
+  tasks:
+    - name: Install NFS client package
+      ansible.builtin.apt:
+        name: nfs-common
+        state: present
+        update_cache: true
