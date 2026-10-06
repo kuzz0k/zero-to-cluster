@@ -1,0 +1,7 @@
+---
+- name: Deploy and configure Gitea
+  hosts: gitea
+  become: true
+  roles:
+    - docker-installation
+    - gitea-configuration

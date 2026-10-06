@@ -1,0 +1,28 @@
+---
+- name: Ensure Docker is running
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Create app directory
+  ansible.builtin.file:
+    path: "{{ gitea_app_root }}"
+    state: directory
+    mode: "0755"
+
+- name: Deploy docker-compose.yml
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ gitea_app_root }}/docker-compose.yml"
+    mode: "0644"
+  notify: Restart Gitea
+
+- name: Start Gitea
+  community.docker.docker_compose_v2:
+    project_src: "{{ gitea_app_root }}"
+    state: present
+
+- name: Show Gitea URL
+  ansible.builtin.debug:
+    msg: "Gitea is available at: {{ gitea_root_url }}"

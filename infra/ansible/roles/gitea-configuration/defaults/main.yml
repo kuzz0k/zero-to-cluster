@@ -1,0 +1,11 @@
+#SPDX-License-Identifier: MIT-0
+---
+gitea_app_root: /opt/gitea
+gitea_image_version: "1.21"
+gitea_http_port: 3000
+gitea_ssh_port: 2222
+gitea_user_uid: 1000
+gitea_user_gid: 1000
+gitea_domain: "localhost"
+gitea_root_url: "http://localhost:3000/"
+gitea_db_type: "sqlite3"

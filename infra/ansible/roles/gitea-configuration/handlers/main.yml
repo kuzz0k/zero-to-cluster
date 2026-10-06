@@ -1,0 +1,6 @@
+#SPDX-License-Identifier: MIT-0
+---
+- name: Restart Gitea
+  community.docker.docker_compose_v2:
+    project_src: "{{ gitea_app_root }}"
+    state: restarted

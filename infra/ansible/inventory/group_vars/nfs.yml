@@ -1,0 +1,2 @@
+nfs_export_path: /srv/nfs/k3s 
+nfs_export_network: 192.168.1.0/24

@@ -1,0 +1,7 @@
+---
+gitea_app_root: /opt/gitea
+gitea_http_port: 3000
+gitea_ssh_port: 2222
+gitea_image_version: "1.21"
+gitea_domain: "{{ ansible_host }}"
+gitea_root_url: "http://{{ ansible_host }}:{{ gitea_http_port }}/"

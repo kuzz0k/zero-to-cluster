@@ -1,0 +1,29 @@
+---
+# {{ ansible_managed }}
+services:
+  gitea:
+    image: gitea/gitea:{{ gitea_image_version }}
+    container_name: gitea
+    restart: unless-stopped
+
+    volumes:
+      - ./data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+
+    ports:
+      - "{{ gitea_http_port }}:3000"
+      - "{{ gitea_ssh_port }}:22"
+
+    environment:
+      USER_UID: "{{ gitea_user_uid }}"
+      USER_GID: "{{ gitea_user_gid }}"
+
+      GITEA__server__START_SSH_SERVER: "false"
+
+      GITEA__server__DOMAIN: "{{ gitea_domain }}"
+      GITEA__server__ROOT_URL: "{{ gitea_root_url }}"
+      GITEA__server__SSH_DOMAIN: "{{ gitea_domain }}"
+      GITEA__server__SSH_PORT: "{{ gitea_ssh_port }}"
+
+      GITEA__database__DB_TYPE: "sqlite3"
