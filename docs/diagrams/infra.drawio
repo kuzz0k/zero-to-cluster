@@ -1,0 +1,70 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="YXmPUpTpPeYuUW6Xp3d6">
+    <mxGraphModel dx="1178" dy="654" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="E3xtIjkh0uqEhvUC7cic-3" parent="1" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/assets/azure/1/Ansible.svg" value="" vertex="1">
+          <mxGeometry height="22.95" width="21.95" x="260" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="E3xtIjkh0uqEhvUC7cic-4" parent="1" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/assets/apps-and-system-logos/1/Terraform.svg" value="" vertex="1">
+          <mxGeometry height="24.69" width="21.95" x="260" y="372.66" as="geometry" />
+        </mxCell>
+        <mxCell id="gi-uM1ynyQRBbld3kreo-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="Raspberry Pi" vertex="1">
+          <mxGeometry height="130" width="130" x="80" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="gi-uM1ynyQRBbld3kreo-2" edge="1" parent="1" source="gi-uM1ynyQRBbld3kreo-1" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="400" y="440" as="sourcePoint" />
+            <mxPoint x="320" y="352.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gi-uM1ynyQRBbld3kreo-3" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="210" y="410.5" as="sourcePoint" />
+            <mxPoint x="320" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gi-uM1ynyQRBbld3kreo-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="" vertex="1">
+          <mxGeometry height="170" width="460.31" x="319.69" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="gi-uM1ynyQRBbld3kreo-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="&lt;div&gt;control&lt;/div&gt;&lt;div&gt;192.168.1.201&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="80" x="330" y="340.01" as="geometry" />
+        </mxCell>
+        <mxCell id="gi-uM1ynyQRBbld3kreo-11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="&lt;div&gt;worker1&lt;/div&gt;&lt;div&gt;192.168.1.202&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="80" x="420" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="gi-uM1ynyQRBbld3kreo-12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="&lt;div&gt;worker2&lt;/div&gt;&lt;div&gt;192.168.1.203&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="80" x="510" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="gi-uM1ynyQRBbld3kreo-13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="&lt;div&gt;nfs-server&lt;/div&gt;192.168.1.204" vertex="1">
+          <mxGeometry height="90" width="80" x="600" y="340.01" as="geometry" />
+        </mxCell>
+        <mxCell id="gi-uM1ynyQRBbld3kreo-14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="&lt;div&gt;gitea&lt;/div&gt;&lt;div&gt;192.168.1.205&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="80" x="690" y="340.01" as="geometry" />
+        </mxCell>
+        <mxCell id="gi-uM1ynyQRBbld3kreo-15" parent="1" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/assets/others/1/Kubernetes.svg" value="" vertex="1">
+          <mxGeometry height="21.32" width="21.95" x="359.02" y="351.34000000000003" as="geometry" />
+        </mxCell>
+        <mxCell id="gi-uM1ynyQRBbld3kreo-16" parent="1" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/assets/others/1/Kubernetes.svg" value="" vertex="1">
+          <mxGeometry height="21.32" width="21.95" x="449.02" y="351.34000000000003" as="geometry" />
+        </mxCell>
+        <mxCell id="gi-uM1ynyQRBbld3kreo-17" parent="1" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/assets/others/1/Kubernetes.svg" value="" vertex="1">
+          <mxGeometry height="21.32" width="21.95" x="539.02" y="351.34000000000003" as="geometry" />
+        </mxCell>
+        <mxCell id="gi-uM1ynyQRBbld3kreo-19" parent="1" style="sketch=0;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#505050;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.databases.database_server_blue;" value="" vertex="1">
+          <mxGeometry height="24.69" width="18.63" x="630.68" y="347.97" as="geometry" />
+        </mxCell>
+        <mxCell id="gi-uM1ynyQRBbld3kreo-20" parent="1" style="verticalLabelPosition=bottom;html=1;verticalAlign=top;align=center;strokeColor=none;fillColor=#00BEF2;shape=mxgraph.azure.git_repository;" value="" vertex="1">
+          <mxGeometry height="24.69" width="24.69" x="717.65" y="347.97" as="geometry" />
+        </mxCell>
+        <mxCell id="gi-uM1ynyQRBbld3kreo-21" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="192.168.1.0/24" vertex="1">
+          <mxGeometry height="40" width="110" x="670" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="gi-uM1ynyQRBbld3kreo-22" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Proxmox VE" vertex="1">
+          <mxGeometry height="30" width="80" x="350" y="300" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

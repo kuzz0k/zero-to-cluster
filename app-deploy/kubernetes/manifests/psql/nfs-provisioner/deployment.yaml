@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-client-provisioner
+  namespace: nfs-provisioner
+  labels:
+    app.kubernetes.io/name: nfs-client-provisioner
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: nfs-client-provisioner
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: nfs-client-provisioner
+    spec:
+      serviceAccountName: nfs-client-provisioner
+      containers:
+        - name: nfs-client-provisioner
+          image: gcr.io/k8s-staging-sig-storage/nfs-subdir-external-provisioner@sha256:2de34c91de19759e90cac7e92ecc49cdd5b39fdfc2f399c4c74ad3ef6ce54fcf
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: nfs-client-root
+              mountPath: /persistentvolumes
+          env:
+            - name: PROVISIONER_NAME
+              value: nfs
+            - name: NFS_SERVER
+              value: 192.168.1.204
+            - name: NFS_PATH
+              value: /srv/nfs/k3s
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 200m
+              memory: 200Mi
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            server: 192.168.1.204
+            path: /srv/nfs/k3s
