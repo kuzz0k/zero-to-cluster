@@ -1,0 +1,50 @@
+---
+# SPDX-License-Identifier: MIT-0
+
+# Docker daemon - для того, чтобы работал http
+
+- name: Ensure /etc/docker exists
+  ansible.builtin.file:
+    path: /etc/docker
+    state: directory
+    mode: "0755"
+
+- name: Configure insecure registries in /etc/docker/daemon.json
+  ansible.builtin.copy:
+    dest: /etc/docker/daemon.json
+    mode: "0644"
+    content: |
+      {
+        "insecure-registries": {{ gitea_runner_insecure_registries | to_json }}
+      }
+  notify: restart docker
+
+- name: Apply docker daemon changes before starting runner
+  ansible.builtin.meta: flush_handlers
+
+# Runner
+
+- name: Ensure runner app directory exists
+  ansible.builtin.file:
+    path: "{{ gitea_runner_app_root }}"
+    state: directory
+    mode: "0755"
+
+- name: Ensure runner data directory exists
+  ansible.builtin.file:
+    path: "{{ gitea_runner_app_root }}/data"
+    state: directory
+    mode: "0755"
+
+- name: Render runner docker-compose
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ gitea_runner_app_root }}/docker-compose.yml"
+    mode: "0644"
+  notify: restart gitea runner
+
+- name: Ensure runner is running
+  community.docker.docker_compose_v2:
+    project_src: "{{ gitea_runner_app_root }}"
+    state: present
+    pull: missing

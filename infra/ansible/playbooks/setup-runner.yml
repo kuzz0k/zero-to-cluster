@@ -1,0 +1,6 @@
+---
+- name: Deploy Gitea Actions Runner
+  hosts: gitea
+  become: true
+  roles:
+    - gitea-runner-setup

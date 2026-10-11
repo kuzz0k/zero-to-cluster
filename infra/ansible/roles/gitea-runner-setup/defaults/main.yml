@@ -1,0 +1,20 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for gitea-runner-setup
+gitea_runner_app_root: /opt/gitea-runner
+gitea_runner_image_version: "latest"
+gitea_runner_name: "docker-runner"
+
+# Адрес Gitea, доступный из контейнера runner'а.
+# Не localhost, не gitea:3000 — а именно тот, что виден снаружи.
+gitea_runner_instance_url: "http://192.168.1.205:3000"
+
+# Образ для job'ов. Содержит docker CLI, node, python, git, buildx.
+gitea_runner_labels: "ubuntu-latest:docker://catthehacker/ubuntu:act-latest"
+
+# Токен тянем из vault.
+gitea_runner_registration_token: "{{ vault_gitea_runner_token }}"
+
+gitea_runner_insecure_registries:
+  - "192.168.1.205:3000"
+  - "127.0.0.1/8"

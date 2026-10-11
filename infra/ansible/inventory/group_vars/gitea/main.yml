@@ -5,3 +5,11 @@ gitea_ssh_port: 2222
 gitea_image_version: "1.21"
 gitea_domain: "{{ ansible_host }}"
 gitea_root_url: "http://{{ ansible_host }}:{{ gitea_http_port }}/"
+gitea_packages_enabled: true
+gitea_actions_enabled: true
+
+# Runner
+gitea_runner_instance_url: "http://{{ ansible_host }}:{{ gitea_http_port }}/"
+gitea_runner_insecure_registries:
+  - "192.168.1.205:3000"
+  - "127.0.0.0/8"

@@ -9,3 +9,6 @@ gitea_user_gid: 1000
 gitea_domain: "localhost"
 gitea_root_url: "http://localhost:3000/"
 gitea_db_type: "sqlite3"
+gitea_packages_enabled: false
+gitea_packages_limit_size_container: -1
+gitea_actions_enabled: false

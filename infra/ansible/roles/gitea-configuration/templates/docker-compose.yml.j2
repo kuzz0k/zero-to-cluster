@@ -27,3 +27,11 @@ services:
       GITEA__server__SSH_PORT: "{{ gitea_ssh_port }}"
 
       GITEA__database__DB_TYPE: "sqlite3"
+
+      GITEA__packages__ENABLED: "{{ gitea_packages_enabled | string | lower }}"
+      GITEA__packages__LIMIT_SIZE_CONTAINER: "{{ gitea_packages_limit_size_container }}"
+
+      GITEA__actions__ENABLED: "{{ gitea_actions_enabled | string | lower }}"
+      GITEA__actions__DEFAULT_ACTIONS_URL: "https://github.com"
+
+  
