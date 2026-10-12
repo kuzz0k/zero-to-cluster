@@ -5,7 +5,11 @@ from app.api.v1 import api_router
 from app.core.config import settings
 from app.core.error_handlers import register_exception_handlers
 
-app = FastAPI(title="Fullstack Test API")
+app = FastAPI(
+    title="My API",
+    version="1.0.0",
+    openapi_version="3.0.2"
+)
 register_exception_handlers(app)
 
 app.add_middleware(

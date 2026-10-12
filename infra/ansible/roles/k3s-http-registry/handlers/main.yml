@@ -1,0 +1,8 @@
+#SPDX-License-Identifier: MIT-0
+---
+# handlers file for roles/k3s-http-registry
+- name: Restart k3s
+  ansible.builtin.systemd:
+    name: "{{ k3s_service_name }}"
+    state: restarted
+  when: k3s_registry_restart | bool

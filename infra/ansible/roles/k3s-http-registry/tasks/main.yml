@@ -1,0 +1,17 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/k3s-http-registry
+- name: Ensure /etc/rancher/k3s exists
+  ansible.builtin.file:
+    path: /etc/rancher/k3s
+    state: directory
+    mode: "0755"
+
+- name: Push registries.yaml
+  ansible.builtin.copy:
+    src: registries.yaml
+    dest: /etc/rancher/k3s/registries.yaml
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart k3s

@@ -1,0 +1,6 @@
+---
+- name: Configure nodes to allow HTTP registry access for k3s
+  hosts: control:workers
+  become: true
+  roles:
+    - k3s-http-registry

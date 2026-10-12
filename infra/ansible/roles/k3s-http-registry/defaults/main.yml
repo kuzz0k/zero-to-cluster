@@ -1,0 +1,4 @@
+---
+k3s_registry_restart: true
+k3s_service_name: >-
+  {{ 'k3s' if inventory_hostname in groups['control'] else 'k3s-agent' }}

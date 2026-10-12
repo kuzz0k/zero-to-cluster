@@ -1,0 +1,96 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: app-http
+  namespace: app
+spec:
+  parentRefs:
+    - name: envoy
+      namespace: envoy
+      sectionName: http
+      kind: Gateway
+
+  hostnames:
+    - app.local
+
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api
+        - path:
+            type: PathPrefix
+            value: /docs
+        - path:
+            type: Exact
+            value: /openapi.json
+        - path:
+            type: PathPrefix
+            value: /redoc
+        - path:
+            type: Exact
+            value: /health
+
+      backendRefs:
+        - name: backend-svc
+          namespace: app
+          port: 8000
+
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+
+      backendRefs:
+        - name: frontend-svc
+          namespace: app
+          port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: app-https
+  namespace: app
+spec:
+  parentRefs:
+    - name: envoy
+      namespace: envoy
+      sectionName: https
+      kind: Gateway
+
+  hostnames:
+    - app.local
+
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api
+        - path:
+            type: PathPrefix
+            value: /docs
+        - path:
+            type: Exact
+            value: /openapi.json
+        - path:
+            type: PathPrefix
+            value: /redoc
+        - path:
+            type: Exact
+            value: /health
+
+      backendRefs:
+        - name: backend-svc
+          namespace: app
+          port: 8000
+
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+
+      backendRefs:
+        - name: frontend-svc
+          namespace: app
+          port: 80

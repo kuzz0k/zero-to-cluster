@@ -1,0 +1,44 @@
+name: Backend CI
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: backend
+  IMAGE_VERSION: "1.0.${{ github.run_number }}"
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get commit SHA
+        id: meta
+        run: |
+          echo "sha_short=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Login to Container Registry
+        run: |
+          echo "${{ secrets.REGISTRY_PASSWORD }}" | \
+            docker login "${{ secrets.REGISTRY_HOST }}" \
+            --username "${{ secrets.REGISTRY_USER }}" \
+            --password-stdin
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            --tag "${{ secrets.REGISTRY_HOST }}/${{ secrets.REGISTRY_USER }}/${IMAGE_NAME}:${IMAGE_VERSION}" \
+            --tag "${{ secrets.REGISTRY_HOST }}/${{ secrets.REGISTRY_USER }}/${IMAGE_NAME}:sha-${{ steps.meta.outputs.sha_short }}" \
+            .
+
+      - name: Push Docker image
+        run: |
+          docker push "${{ secrets.REGISTRY_HOST }}/${{ secrets.REGISTRY_USER }}/${IMAGE_NAME}:${IMAGE_VERSION}"
+          docker push "${{ secrets.REGISTRY_HOST }}/${{ secrets.REGISTRY_USER }}/${IMAGE_NAME}:sha-${{ steps.meta.outputs.sha_short }}"
