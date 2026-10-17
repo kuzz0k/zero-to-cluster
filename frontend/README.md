@@ -14,9 +14,6 @@ npm run build      # tsc + vite build → dist/
 npm run preview    # локально посмотреть собранное
 ```
 
-### Docker
-
-
 
 ## Скрипты
 

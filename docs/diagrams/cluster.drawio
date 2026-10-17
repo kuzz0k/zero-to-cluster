@@ -1,0 +1,117 @@
+<mxfile host="65bd71144e">
+    <diagram id="cluster-architecture" name="Cluster architecture">
+        <mxGraphModel dx="769" dy="496" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="750" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="BWnOntbJX7BuvgmXAfZR-4" parent="1" style="text;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="ns: nfs-provisioner" vertex="1">
+                    <mxGeometry height="130" width="285" x="757.5" y="555" as="geometry"/>
+                </mxCell>
+                <mxCell id="BWnOntbJX7BuvgmXAfZR-2" parent="1" style="text;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="ns: app" vertex="1">
+                    <mxGeometry height="375" width="350" x="725" y="65" as="geometry"/>
+                </mxCell>
+                <mxCell id="DyO8a6rmCWUEByo-d6Xu-15" parent="1" style="text;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="ns: psql" vertex="1">
+                    <mxGeometry height="317.5" width="285" x="1177.5" y="276.25" as="geometry"/>
+                </mxCell>
+                <mxCell id="front_svc" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;" value="frontend-svc&lt;br&gt;ClusterIP :80" vertex="1">
+                    <mxGeometry height="55" width="130" x="755" y="225" as="geometry"/>
+                </mxCell>
+                <mxCell id="front_pods" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;" value="Deployment frontend&lt;br&gt;2 replicas :80" vertex="1">
+                    <mxGeometry height="65" width="130" x="755" y="310" as="geometry"/>
+                </mxCell>
+                <mxCell id="back_svc" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;" value="backend-svc&lt;br&gt;ClusterIP :8000" vertex="1">
+                    <mxGeometry height="55" width="140" x="905" y="225" as="geometry"/>
+                </mxCell>
+                <mxCell id="back_pod" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;" value="&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(0, 0, 0));&quot;&gt;Deployment backend&lt;br&gt;1 replica :8000&lt;/span&gt;" vertex="1">
+                    <mxGeometry height="80" width="140" x="905" y="310" as="geometry"/>
+                </mxCell>
+                <mxCell id="psql_svc" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;" value="Service psql&lt;br&gt;ClusterIP :5432" vertex="1">
+                    <mxGeometry height="55" width="190" x="1225" y="320" as="geometry"/>
+                </mxCell>
+                <mxCell id="psql_sts" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;" value="StatefulSet psql&lt;br&gt;PostgreSQL 16&lt;br&gt;1 replica" vertex="1">
+                    <mxGeometry height="70" width="190" x="1225" y="400" as="geometry"/>
+                </mxCell>
+                <mxCell id="psql_pvc" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;" value="PVC template" vertex="1">
+                    <mxGeometry height="55" width="190" x="1225" y="490" as="geometry"/>
+                </mxCell>
+                <mxCell id="nfs_prov" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;" value="NFS subdir external provisioner&lt;br&gt;StorageClass: nfs-client" vertex="1">
+                    <mxGeometry height="70" width="210" x="795" y="585" as="geometry"/>
+                </mxCell>
+                <mxCell id="nfs_server" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;" value="NFS server&lt;br&gt;192.168.1.204&lt;br&gt;/srv/nfs/k3s" vertex="1">
+                    <mxGeometry height="70" width="190" x="510" y="585" as="geometry"/>
+                </mxCell>
+                <mxCell id="registry" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;" value="Gitea container registry&lt;br&gt;192.168.1.205:3000" vertex="1">
+                    <mxGeometry height="65" width="190" x="805" y="464" as="geometry"/>
+                </mxCell>
+                <mxCell id="e10" edge="1" parent="1" source="route_obj" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;" target="back_svc" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e11" edge="1" parent="1" source="front_svc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;" target="front_pods" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e12" edge="1" parent="1" source="back_svc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;" target="back_pod" value="">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e13" edge="1" parent="1" source="back_pod" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;" target="psql_svc" value="DATABASE_URL">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e14" edge="1" parent="1" source="psql_svc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;" target="psql_sts" value="TCP :5432">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e15" edge="1" parent="1" source="psql_sts" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;" target="psql_pvc" value="mounts claim">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e16" edge="1" parent="1" source="nfs_prov" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;dashed=1;" target="psql_pvc" value="dynamic PV provisioning">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e17" edge="1" parent="1" source="nfs_prov" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;" target="nfs_server" value="NFS mount">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e18" edge="1" parent="1" source="front_pods" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;dashed=1;" target="registry" value="pulls images">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e19" edge="1" parent="1" source="back_pod" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;dashed=1;" target="registry" value="pulls images">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="DyO8a6rmCWUEByo-d6Xu-5" edge="1" parent="1" source="DyO8a6rmCWUEByo-d6Xu-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" target="front_svc">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="820" y="160"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="DyO8a6rmCWUEByo-d6Xu-8" edge="1" parent="1" source="DyO8a6rmCWUEByo-d6Xu-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="front_pods">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="DyO8a6rmCWUEByo-d6Xu-9" edge="1" parent="1" source="DyO8a6rmCWUEByo-d6Xu-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.002;entryY=0.874;entryDx=0;entryDy=0;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryPerimeter=0;" target="back_pod">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="555" y="379.9"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="DyO8a6rmCWUEByo-d6Xu-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Envoy Proxy" vertex="1">
+                    <mxGeometry height="85" width="140" x="520" y="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="DyO8a6rmCWUEByo-d6Xu-4" edge="1" parent="1" source="DyO8a6rmCWUEByo-d6Xu-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.003;entryY=0.609;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;" target="DyO8a6rmCWUEByo-d6Xu-3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="DyO8a6rmCWUEByo-d6Xu-6" edge="1" parent="1" source="DyO8a6rmCWUEByo-d6Xu-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.317;entryY=0.016;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;" target="back_svc">
+                    <mxGeometry relative="1" x="0.0021" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="890" y="180"/>
+                            <mxPoint x="890" y="200"/>
+                            <mxPoint x="949.4" y="200"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="DyO8a6rmCWUEByo-d6Xu-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=light-dark(#DAE8FC,#FFFFFF);strokeColor=light-dark(#6c8ebf, #000000);fontSize=13;fontColor=light-dark(#000000,#030303);strokeWidth=1;" value="HTTPRoute" vertex="1">
+                    <mxGeometry height="85" width="140" x="890" y="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="route_obj" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=light-dark(#DAE8FC,#FAFAFA);strokeColor=light-dark(#6c8ebf, #000000);fontSize=13;" value="HTTPRoute" vertex="1">
+                    <mxGeometry height="85" width="140" x="905" y="100" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
