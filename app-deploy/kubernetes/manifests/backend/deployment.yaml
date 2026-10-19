@@ -23,7 +23,6 @@ spec:
           envFrom:
             - secretRef:
                 name: backend-env
-          restartPolicy: Always
           resources:
             requests:
               memory: "64Mi"

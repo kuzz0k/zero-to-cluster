@@ -7,8 +7,8 @@ spec:
   limits:
     - type: Container
       min:
-        cpu: "50m"
-        memory: "64Mi"
+        cpu: "10m"
+        memory: "32Mi"
       max:
         cpu: "1"
         memory: "512Mi"
