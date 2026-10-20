@@ -42,3 +42,30 @@ jobs:
         run: |
           docker push "${{ secrets.REGISTRY_HOST }}/${{ secrets.REGISTRY_USER }}/${IMAGE_NAME}:${IMAGE_VERSION}"
           docker push "${{ secrets.REGISTRY_HOST }}/${{ secrets.REGISTRY_USER }}/${IMAGE_NAME}:sha-${{ steps.meta.outputs.sha_short }}"
+
+  update-manifests:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    concurrency: manifests-backend
+
+    steps:
+      - name: Bump backend image tag
+        env:
+          TOKEN: ${{ secrets.MANIFESTS_TOKEN }}
+          REPO: 192.168.1.205:3000/user1/cluster-platform-repo.git
+        run: |
+          git clone "http://user1:${TOKEN}@${REPO}" manifests
+          cd manifests
+
+          sed -i "s/^\(\s*newTag:\).*/\1 \"${IMAGE_VERSION}\"/" backend/kustomization.yaml
+          git diff --exit-code && { echo "Тег не изменился"; exit 0; }
+
+          git config user.name  "ci-bot"
+          git config user.email "ci-bot@local"
+          git commit -am "backend: ${IMAGE_VERSION}"
+
+          for i in 1 2 3; do
+            git push origin main && exit 0
+            git pull --rebase origin main
+          done
+          exit 1
