@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app
+  namespace: argocd
+spec:
+  destination:
+    namespace: app
+    server: https://kubernetes.default.svc
+  sources:
+    - path: backend
+      repoURL: http://192.168.1.205:3000/user1/cluster-platform-repo.git
+      targetRevision: main
+    - path: frontend
+      repoURL: http://192.168.1.205:3000/user1/cluster-platform-repo.git
+      targetRevision: main
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

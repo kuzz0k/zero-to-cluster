@@ -1,0 +1,34 @@
+resources:
+  - namespace.yaml
+  - grafanaHTTPRoute.yaml
+  - monitors.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    grafana_dashboard: "1"
+
+configMapGenerator:
+  - name: dashboard-node-use
+    namespace: monitoring
+    files:
+      - dashboards/node-use.json
+    options:
+      annotations:
+        grafana_folder: Cluster
+
+  - name: dashboard-gateway-http
+    namespace: monitoring
+    files:
+      - dashboards/gateway-http.json
+    options:
+      annotations:
+        grafana_folder: Cluster
+
+  - name: dashboard-backend-red
+    namespace: monitoring
+    files:
+      - dashboards/backend-red.json
+    options:
+      annotations:
+        grafana_folder: App
