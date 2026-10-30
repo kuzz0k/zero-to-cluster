@@ -1,5 +1,3 @@
-# kubernetes
-
 Учебный DevOps-проект — собственная инфраструктура на базе Proxmox и Kubernetes с автоматизацией, CI/CD, GitOps, управлением трафиком и мониторингом.
 
 Виртуальные машины в Proxmox создаются и настраиваются через Terraform и Ansible с отдельной ноды на Raspberry Pi. На трех ВМ поднят кластер k3s (control + 2 worker), рядом стоят NFS-сервер для постоянных данных и Gitea с раннером и registry. В кластере крутится веб-приложение (React + FastAPI + PostgreSQL), трафик снаружи приходит через MetalLB и Envoy Gateway. Код собирается в Gitea Actions, а в кластер попадает только через Argo CD из git. Метрики, логи и алерты — Prometheus, Loki и Alertmanager.
