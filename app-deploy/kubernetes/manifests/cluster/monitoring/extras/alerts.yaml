@@ -1,0 +1,24 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: node-disk
+  namespace: monitoring
+spec:
+  groups:
+    - name: node-disk
+      rules:
+        - alert: NodeDiskUsageHigh
+          expr: |
+            (
+              1 - node_filesystem_avail_bytes{fstype=~"ext4|xfs|btrfs", mountpoint!~"/boot.*"}
+                / node_filesystem_size_bytes{fstype=~"ext4|xfs|btrfs", mountpoint!~"/boot.*"}
+            ) * 100
+            * on (instance) group_left (nodename) node_uname_info
+            > 90
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: 'Диск на {{ $labels.nodename }} заполнен на {{ printf "%.0f" $value }}%'
+            description: '{{ $labels.mountpoint }} ({{ $labels.device }}), свободно меньше 10%. Почистить образы: sudo k3s crictl rmi --prune'

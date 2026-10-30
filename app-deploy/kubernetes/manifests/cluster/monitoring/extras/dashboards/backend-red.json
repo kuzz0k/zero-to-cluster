@@ -52,7 +52,20 @@
   "annotations": {
     "list": []
   },
-  "links": [],
+  "links": [
+    {
+      "title": "Логи бэкенда",
+      "type": "link",
+      "icon": "doc",
+      "url": "/d/k8s-logs?var-namespace=app&var-app=backend",
+      "keepTime": true,
+      "targetBlank": false,
+      "tooltip": "Kubernetes · Logs с фильтром app=backend",
+      "asDropdown": false,
+      "includeVars": false,
+      "tags": []
+    }
+  ],
   "panels": [
     {
       "type": "stat",

@@ -2,6 +2,7 @@ resources:
   - namespace.yaml
   - grafanaHTTPRoute.yaml
   - monitors.yaml
+  - alerts.yaml
 
 generatorOptions:
   disableNameSuffixHash: true
@@ -32,3 +33,11 @@ configMapGenerator:
     options:
       annotations:
         grafana_folder: App
+
+  - name: dashboard-k8s-logs
+    namespace: monitoring
+    files:
+      - dashboards/k8s-logs.json
+    options:
+      annotations:
+        grafana_folder: Logs

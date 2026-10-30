@@ -1,4 +1,6 @@
 ---
+# group/kind/weight are the API server's defaults, written out explicitly:
+# otherwise Argo CD sees the defaulted list items as a diff and self-heals forever
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -6,11 +8,15 @@ metadata:
   namespace: monitoring
 spec:
   parentRefs:
-    - name: envoy
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: envoy
       namespace: envoy
       sectionName: http
 
-    - name: envoy
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: envoy
       namespace: envoy
       sectionName: https
 
@@ -24,5 +30,8 @@ spec:
             value: /grafana
 
       backendRefs:
-        - name: monitoring-grafana
+        - group: ""
+          kind: Service
+          name: monitoring-grafana
           port: 80
+          weight: 1

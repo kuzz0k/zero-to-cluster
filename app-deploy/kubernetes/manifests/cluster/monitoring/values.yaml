@@ -1,6 +1,3 @@
-alertmanager:
-  enabled: false
-
 kubeControllerManager:
   enabled: false
 kubeScheduler:
@@ -37,6 +34,69 @@ prometheusOperator:
   admissionWebhooks:
     patch:
       affinity: *workers-only
+
+alertmanager:
+  enabled: true
+
+  config:
+    route:
+      group_by: ['alertname', 'nodename', 'namespace']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 4h
+      receiver: 'null'
+      routes:
+        - receiver: 'null'
+          matchers:
+            - alertname =~ "Watchdog|InfoInhibitor"
+        - receiver: telegram
+          matchers:
+            - severity =~ "warning|critical"
+    receivers:
+      - name: 'null'
+      - name: telegram
+        telegram_configs:
+          - api_url: https://tg-proxy.kuznecov00900.workers.dev
+            bot_token_file: /etc/alertmanager/secrets/alertmanager-telegram/bot-token
+            chat_id: 793746159
+            parse_mode: HTML
+            send_resolved: true
+            message: |-
+              {{ if eq .Status "firing" }}🔥 <b>{{ .CommonLabels.alertname }}</b>{{ else }}✅ <b>{{ .CommonLabels.alertname }}</b> resolved{{ end }}
+              {{ range .Alerts }}
+              {{ .Annotations.summary }}
+              {{ if .Annotations.description }}<i>{{ .Annotations.description }}</i>{{ end }}
+              {{ end }}
+
+  alertmanagerSpec:
+    affinity: *workers-only
+
+    secrets:
+      - alertmanager-telegram
+
+    # Go 1.24+ offers post-quantum key exchange by default; its large ClientHello
+    # hangs at the ISP on the way to Cloudflare (TLS handshake timeout). Use classic X25519.
+    containers:
+      - name: alertmanager
+        env:
+          - name: GODEBUG
+            value: tlsmlkem=0,tlssecpmlkem=0
+
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
+      limits:
+        memory: 128Mi
+
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: nfs-client
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 1Gi
 
 prometheus:
   prometheusSpec:
@@ -81,6 +141,13 @@ grafana:
 
   defaultDashboardsTimezone: browser
 
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      uid: loki
+      url: http://loki.monitoring.svc:3100
+      access: proxy
+
   grafana.ini:
     server:
       domain: app.local
@@ -101,10 +168,14 @@ grafana:
 
   resources:
     requests:
-      cpu: 50m
-      memory: 128Mi
+      cpu: 100m
+      memory: 256Mi
     limits:
-      memory: 384Mi
+      memory: 768Mi
+
+  readinessProbe:
+    timeoutSeconds: 5
+    failureThreshold: 3
 
 kube-state-metrics:
   affinity: *workers-only
