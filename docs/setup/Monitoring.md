@@ -1,5 +1,5 @@
 
-kube-prometheus-stack (Prometheus Operator, Prometheus, Grafana, node-exporter, kube-state-metrics) в namespace `monitoring`, ставится через Argo CD. Как всё устроено — в [architecture.md](architecture.md).
+kube-prometheus-stack (Prometheus Operator, Prometheus, Grafana, node-exporter, kube-state-metrics) в namespace `monitoring`, ставится через Argo CD.
 
 Файлы:
 
